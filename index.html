@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hamza Nasir — Frontend Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #060b18;
+      --bg-2: #0a1128;
+      --surface: rgba(12, 20, 42, 0.82);
+      --surface-2: rgba(15, 25, 50, 0.65);
+      --line: rgba(148, 163, 184, 0.12);
+      --line-hover: rgba(59, 130, 246, 0.35);
+      --text: #e2e8f0;
+      --muted: #8896ab;
+      --muted-2: #b0bec9;
+      --accent: #3b82f6;
+      --accent-light: #60a5fa;
+      --accent-glow: rgba(59, 130, 246, 0.15);
+      --white: #ffffff;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+      --max-w: 1140px;
+      --header-h: 72px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: var(--header-h);
+    }
+
+    body {
+      font-family: "Inter", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.65;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 10px; }
+
+    a { text-decoration: none; color: inherit; }
+    img { display: block; max-width: 100%; }
+
+    .container {
+      width: min(var(--max-w), calc(100% - 48px));
+      margin-inline: auto;
+    }
+
+    /* ===================== HEADER ===================== */
+    .site-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: var(--header-h);
+      z-index: 1000;
+      transition: 0.3s ease;
+      border-bottom: 1px solid transparent;
+    }
+
+    .site-header.scrolled {
+      background: rgba(6, 11, 24, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom-color: var(--line);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: var(--header-h);
+    }
+
+    .brand {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--white);
+      letter-spacing: -0.04em;
+    }
+
+    .brand i { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.01em;
+      transition: 0.2s;
+      position: relative;
+      padding-bottom: 4px;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent);
+      border-radius: 2px;
+      transition: 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      color: var(--white);
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a.active::after {
+      width: 100%;
+    }
+
+    .header-cta {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--white);
+      border: 1px solid var(--line);
+      padding: 10px 20px;
+      border-radius: 999px;
+      transition: 0.25s;
+    }
+
+    .header-cta:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* HAMBURGER */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 6px;
+    }
+
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: 0.3s;
+    }
+
+    .hamburger.open span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .hamburger.open span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .hamburger.open span:nth-child(3) {
+      transform: rotate(-45deg) translate(5px, -5px);
+    }
+
+    /* MOBILE MENU */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--header-h);
+      left: 0;
+      width: 100%;
+      background: rgba(6, 11, 24, 0.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--line);
+      padding: 24px 0;
+      z-index: 999;
+    }
+
+    .mobile-menu.show { display: block; }
+
+    .mobile-menu ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .mobile-menu a {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--muted-2);
+      transition: 0.2s;
+    }
+
+    .mobile-menu a:hover { color: var(--white); }
+
+    /* ===================== HERO ===================== */
+    .hero {
+      padding: 160px 0 100px;
+      position: relative;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: -120px;
+      left: -15%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(59,130,246,0.08), transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr 0.75fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 16px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted-2);
+      background: var(--surface-2);
+      margin-bottom: 24px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #22c55e;
+      box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.15);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 0 0 4px rgba(34,197,94,0.15); }
+      50% { box-shadow: 0 0 0 8px rgba(34,197,94,0.08); }
+    }
+
+    .hero h1 {
+      font-size: clamp(40px, 7vw, 64px);
+      font-weight: 900;
+      line-height: 1.02;
+      letter-spacing: -0.045em;
+      color: var(--white);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 .accent { color: var(--accent-light); }
+
+    /* TYPING EFFECT */
+    .typing-wrapper {
+      font-size: 19px;
+      color: var(--accent-light);
+      font-weight: 600;
+      margin-bottom: 18px;
+      min-height: 28px;
+    }
+
+    .typing-cursor {
+      display: inline-block;
+      width: 2px;
+      height: 22px;
+      background: var(--accent);
+      margin-left: 2px;
+      animation: blink 0.8s infinite;
+      vertical-align: text-bottom;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-desc {
+      font-size: 16px;
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 28px;
+      line-height: 1.75;
+    }
+
+    .hero-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 32px;
+    }
+
+    .chip {
+      padding: 8px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--muted-2);
+      background: var(--surface-2);
+    }
+
+    .hero-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      height: 48px;
+      padding: 0 24px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 700;
+      transition: 0.25s ease;
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-fill {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 10px 28px rgba(59,130,246,0.28);
+    }
+
+    .btn-fill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 32px rgba(59,130,246,0.35);
+    }
+
+    .btn-ghost {
+      border-color: var(--line);
+      color: var(--white);
+      background: transparent;
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+    }
+
+    /* HERO CARD */
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      bottom: -30%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(59,130,246,0.12), transparent 70%);
+      pointer-events: none;
+    }
+
+    .avatar-frame {
+      aspect-ratio: 1 / 1.05;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--bg-2);
+      margin-bottom: 16px;
+      position: relative;
+    }
+
+    .avatar-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar-fallback {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      font-size: 72px;
+      font-weight: 900;
+      color: var(--accent);
+      letter-spacing: -0.05em;
+      background: linear-gradient(135deg, var(--bg-2), #0f1d3a);
+    }
+
+    .card-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .card-meta-item {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius-sm);
+      background: rgba(255,255,255,0.015);
+    }
+
+    .card-meta-item .cml {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .card-meta-item .cmv {
+      font-size: 13.5px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.4;
+    }
+
+    /* ===================== SECTIONS COMMON ===================== */
+    .sect {
+      padding: 100px 0;
+      position: relative;
+    }
+
+    .sect-alt {
+      background: var(--bg-2);
+    }
+
+    .sect-label {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 12px;
+    }
+
+    .sect-header {
+      max-width: 640px;
+      margin-bottom: 48px;
+    }
+
+    .sect-header h2 {
+      font-size: clamp(28px, 4.5vw, 40px);
+      font-weight: 800;
+      color: var(--white);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 12px;
+    }
+
+    .sect-header p {
+      font-size: 15.5px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* ===================== ABOUT ===================== */
+    .about-layout {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 28px;
+    }
+
+    .glass-panel {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+    }
+
+    .about-text p {
+      font-size: 15.5px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.8;
+    }
+
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .info-box {
+      padding: 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.015);
+      transition: 0.25s;
+    }
+
+    .info-box:hover {
+      border-color: var(--line-hover);
+    }
+
+    .info-box .ib-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .info-box .ib-value {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      line-height: 1.45;
+    }
+
+    /* ===================== SKILLS ===================== */
+    .skills-layout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .s-card {
+      padding: 28px 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      transition: 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .s-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .s-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--line-hover);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+    }
+
+    .s-card:hover::before { opacity: 1; }
+
+    .s-card h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 8px;
+    }
+
+    .s-card p {
+      font-size: 13.5px;
+      color: var(--muted);
+      margin-bottom: 18px;
+      line-height: 1.65;
+      min-height: 42px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      padding: 6px 12px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted-2);
+      background: rgba(255,255,255,0.02);
+    }
+
+    /* ===================== EDUCATION ===================== */
+    .edu-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .e-card {
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+    }
+
+    .e-card:hover {
+      border-color: var(--line-hover);
+      transform: translateY(-3px);
+    }
+
+    .e-card .e-inst {
+      display: block;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 10px;
+    }
+
+    .e-card h3 {
+      font-size: 19px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .e-card p {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding: 7px 14px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted-2);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .badge-dot-green {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #22c55e;
+    }
+
+    .badge-dot-blue {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    /* ===================== PROJECTS ===================== */
+    .projects-layout {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .p-card {
+      padding: 28px 24px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      transition: 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .p-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent-light));
+      opacity: 0;
+      transition: 0.3s;
+    }
+
+    .p-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--line-hover);
+    }
+
+    .p-card:hover::before { opacity: 1; }
+
+    .p-num {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent-light);
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .p-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .p-card p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 18px;
+    }
+
+    /* ===================== CONTACT ===================== */
+    .contact-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .c-panel {
+      padding: 32px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .c-panel h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--white);
+      margin-bottom: 10px;
+    }
+
+    .c-panel > p {
+      font-size: 14.5px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .c-rows {
+      display: grid;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .c-row {
+      padding: 15px 18px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255,255,255,0.015);
+      transition: 0.2s;
+    }
+
+    .c-row:hover { border-color: var(--line-hover); }
+
+    .c-row .cr-label {
+      display: block;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .c-row .cr-value {
+      font-size: 14.5px;
+      font-weight: 600;
+      color: var(--white);
+      word-break: break-word;
+    }
+
+    .c-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    /* ===================== FOOTER ===================== */
+    .site-footer {
+      padding: 28px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .footer-inner strong { color: var(--white); }
+
+    /* ===================== BACK TO TOP ===================== */
+    .back-top {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 18px;
+      box-shadow: 0 8px 24px rgba(59,130,246,0.3);
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.3s;
+      cursor: pointer;
+      border: none;
+      z-index: 900;
+    }
+
+    .back-top.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .back-top:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 28px rgba(59,130,246,0.4);
+    }
+
+    /* ===================== REVEAL ===================== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.65s ease, transform 0.65s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===================== RESPONSIVE ===================== */
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .about-layout,
+      .contact-layout,
+      .edu-layout,
+      .skills-layout,
+      .projects-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .hero { padding-top: 130px; }
+      .hero-card { max-width: 480px; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links, .header-cta { display: none; }
+      .hamburger { display: flex; }
+      .sect { padding: 72px 0; }
+      .hero h1 { font-size: 36px; }
+      .hero-desc { font-size: 15px; }
+      .glass-panel, .s-card, .e-card, .p-card, .c-panel { padding: 22px; }
+      .info-grid, .card-meta { grid-template-columns: 1fr; }
+      .container { width: min(var(--max-w), calc(100% - 28px)); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="site-header" id="siteHeader">
+    <div class="container">
+      <div class="header-inner">
+        <a href="#home" class="brand">Hamza<i>.</i></a>
+
+        <ul class="nav-links" id="navLinks">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#education">Education</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+
+        <a href="mailto:hnasir0317@gmail.com" class="header-cta">Get in Touch</a>
+
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <div class="container">
+      <ul>
+        <li><a href="#about" class="mob-link">About</a></li>
+        <li><a href="#skills" class="mob-link">Skills</a></li>
+        <li><a href="#education" class="mob-link">Education</a></li>
+        <li><a href="#projects" class="mob-link">Projects</a></li>
+        <li><a href="#contact" class="mob-link">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <main id="home">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="reveal">
+            <div class="hero-badge">
+              <div class="badge-dot"></div>
+              Available for Internship Opportunities
+            </div>
+
+            <h1>Frontend Developer focused on building modern <span class="accent">React.js</span> interfaces</h1>
+
+            <div class="typing-wrapper">
+              <span id="typingText"></span>
+              <span class="typing-cursor"></span>
+            </div>
+
+            <p class="hero-desc">
+              I am Hamza Nasir, a Karachi-based frontend developer currently building my expertise in HTML, CSS, JavaScript, React.js, and MySQL. I am pursuing a BS in Applied Physics at the University of Karachi and a Diploma in Software Development at Aptech, while actively seeking internship opportunities to apply my skills in real-world development environments.
+            </p>
+
+            <div class="hero-chips">
+              <div class="chip">Karachi, Pakistan</div>
+              <div class="chip">Frontend Development</div>
+              <div class="chip">React.js</div>
+              <div class="chip">Open to Internship</div>
+            </div>
+
+            <div class="hero-btns">
+              <a href="mailto:hnasir0317@gmail.com" class="btn btn-fill">Contact Me</a>
+              <a href="#projects" class="btn btn-ghost">View Projects</a>
+              <a href="https://github.com/hamzanasir-dev" target="_blank" class="btn btn-ghost">GitHub</a>
+            </div>
+          </div>
+
+          <div class="hero-card reveal">
+            <div class="avatar-frame">
+              <img src="profile.jpg" alt="Hamza Nasir" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';">
+              <div class="avatar-fallback" style="display:none;">HN</div>
+            </div>
+
+            <div class="card-meta">
+              <div class="card-meta-item">
+                <span class="cml">Focus</span>
+                <span class="cmv">Frontend and React.js Development</span>
+              </div>
+              <div class="card-meta-item">
+                <span class="cml">Status</span>
+                <span class="cmv">Seeking Internship</span>
+              </div>
+              <div class="card-meta-item">
+                <span class="cml">Email</span>
+                <span class="cmv">hnasir0317@gmail.com</span>
+              </div>
+              <div class="card-meta-item">
+                <span class="cml">Phone</span>
+                <span class="cmv">0323-2202337</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="divider"></div></div>
+
+    <!-- ABOUT -->
+    <section class="sect" id="about">
+      <div class="container">
+        <div class="sect-header reveal">
+          <span class="sect-label">About</span>
+          <h2>Professional Profile</h2>
+          <p>A motivated developer with a strong interest in web development, problem solving, and building practical software solutions.</p>
+        </div>
+
+        <div class="about-layout">
+          <div class="glass-panel about-text reveal">
+            <p>
+              I am a frontend developer based in Karachi with a solid foundation in HTML, CSS, JavaScript, React.js, and MySQL. My technical skills are complemented by a Diploma in Software Development from Aptech, where I have completed two years of hands-on coursework.
+            </p>
+            <p>
+              I focus on building structured, responsive, and user-friendly web interfaces. My approach to development is centered on clean code, consistent practice, and project-based learning. I am currently expanding my knowledge into Python to broaden my technical capabilities.
+            </p>
+            <p>
+              I am actively seeking an internship opportunity where I can contribute to real projects, collaborate with experienced developers, and strengthen my professional workflow.
+            </p>
+          </div>
+
+          <div class="glass-panel reveal">
+            <div class="info-grid">
+              <div class="info-box">
+                <span class="ib-label">Name</span>
+                <div class="ib-value">Hamza Nasir</div>
+              </div>
+              <div class="info-box">
+                <span class="ib-label">Location</span>
+                <div class="ib-value">Nazimabad, Karachi</div>
+              </div>
+              <div class="info-box">
+                <span class="ib-label">University</span>
+                <div class="ib-value">University of Karachi</div>
+              </div>
+              <div class="info-box">
+                <span class="ib-label">Degree</span>
+                <div class="ib-value">BS Applied Physics</div>
+              </div>
+              <div class="info-box">
+                <span class="ib-label">Languages</span>
+                <div class="ib-value">Urdu, English</div>
+              </div>
+              <div class="info-box">
+                <span class="ib-label">Interests</span>
+                <div class="ib-value">Coding, Problem Solving, Project Building</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="divider"></div></div>
+
+    <!-- SKILLS -->
+    <section class="sect" id="skills">
+      <div class="container">
+        <div class="sect-header reveal">
+          <span class="sect-label">Skills</span>
+          <h2>Technical Skills</h2>
+          <p>Core technologies and tools I work with in frontend and web development.</p>
+        </div>
+
+        <div class="skills-layout">
+          <div class="s-card reveal">
+            <h3>Frontend Development</h3>
+            <p>Building structured, semantic, and responsive user interfaces.</p>
+            <div class="tag-row">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">Responsive Design</span>
+            </div>
+          </div>
+
+          <div class="s-card reveal">
+            <h3>JavaScript</h3>
+            <p>Developing interactive interfaces and applying modern ES6+ concepts.</p>
+            <div class="tag-row">
+              <span class="tag">JavaScript ES6+</span>
+              <span class="tag">DOM</span>
+              <span class="tag">Event Handling</span>
+            </div>
+          </div>
+
+          <div class="s-card reveal">
+            <h3>React.js</h3>
+            <p>Building component-based applications with state management and hooks.</p>
+            <div class="tag-row">
+              <span class="tag">React.js</span>
+              <span class="tag">Components</span>
+              <span class="tag">Hooks</span>
+            </div>
+          </div>
+
+          <div class="s-card reveal">
+            <h3>Database</h3>
+            <p>Working with relational databases and writing structured queries.</p>
+            <div class="tag-row">
+              <span class="tag">MySQL</span>
+              <span class="tag">SQL Queries</span>
+              <span class="tag">Data Modeling</span>
+            </div>
+          </div>
+
+          <div class="s-card reveal">
+            <h3>Expanding Stack</h3>
+            <p>Currently learning Python to strengthen backend and scripting capabilities.</p>
+            <div class="tag-row">
+              <span class="tag">Python</span>
+              <span class="tag">Backend Basics</span>
+              <span class="tag">Scripting</span>
+            </div>
+          </div>
+
+          <div class="s-card reveal">
+            <h3>Professional Approach</h3>
+            <p>Consistent practice, structured thinking, and solution-oriented development.</p>
+            <div class="tag-row">
+              <span class="tag">Problem Solving</span>
+              <span class="tag">Clean Code</span>
+              <span class="tag">Self Learning</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="divider"></div></div>
+
+    <!-- EDUCATION -->
+    <section class="sect" id="education">
+      <div class="container">
+        <div class="sect-header reveal">
+          <span class="sect-label">Education</span>
+          <h2>Academic Background</h2>
+          <p>My current academic and technical education journey.</p>
+        </div>
+
+        <div class="edu-layout">
+          <div class="e-card reveal">
+            <span class="e-inst">University of Karachi</span>
+            <h3>BS Applied Physics</h3>
+            <p>
+              Currently enrolled, started January 2026. Building my academic foundation while continuing to develop frontend and software development skills alongside formal studies.
+            </p>
+            <div class="badge">
+              <div class="badge-dot-green"></div>
+              In Progress
+            </div>
+          </div>
+
+          <div class="e-card reveal">
+            <span class="e-inst">Aptech — Karachi</span>
+            <h3>Diploma in Software Development</h3>
+            <p>
+              A three-year comprehensive diploma program focused on practical software development. Two years of coursework completed, one year remaining.
+            </p>
+            <div class="badge">
+              <div class="badge-dot-blue"></div>
+              2 Years Completed
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="divider"></div></div>
+
+    <!-- PROJECTS -->
+    <section class="sect" id="projects">
+      <div class="container">
+        <div class="sect-header reveal">
+          <span class="sect-label">Projects</span>
+          <h2>Projects and Development</h2>
+          <p>Current and upcoming projects demonstrating my frontend development capabilities.</p>
+        </div>
+
+        <div class="projects-layout">
+          <div class="p-card reveal">
+            <span class="p-num">Project 01</span>
+            <h3>Personal Portfolio</h3>
+            <p>
+              A fully responsive, professional portfolio website built from scratch to present my profile, skills, education, and contact information to recruiters and hiring teams.
+            </p>
+            <div class="tag-row" style="margin-bottom:16px;">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">JavaScript</span>
+            </div>
+            <div class="badge">
+              <div class="badge-dot-green"></div>
+              Completed
+            </div>
+          </div>
+
+          <div class="p-card reveal">
+            <span class="p-num">Project 02</span>
+            <h3>React Task Manager</h3>
+            <p>
+              A task management application built with React.js featuring component-based architecture, state management with hooks, and local storage persistence.
+            </p>
+            <div class="tag-row" style="margin-bottom:16px;">
+              <span class="tag">React.js</span>
+              <span class="tag">Hooks</span>
+              <span class="tag">LocalStorage</span>
+            </div>
+            <div class="badge">
+              <div class="badge-dot-blue"></div>
+              In Development
+            </div>
+          </div>
+
+          <div class="p-card reveal">
+            <span class="p-num">Project 03</span>
+            <h3>Responsive Landing Page</h3>
+            <p>
+              A pixel-perfect, responsive landing page project focused on layout precision, modern CSS techniques, and clean visual presentation for web interfaces.
+            </p>
+            <div class="tag-row" style="margin-bottom:16px;">
+              <span class="tag">HTML5</span>
+              <span class="tag">CSS3</span>
+              <span class="tag">Responsive</span>
+            </div>
+            <div class="badge">
+              <div class="badge-dot-blue"></div>
+              In Development
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container"><div class="divider"></div></div>
+
+    <!-- CONTACT -->
+    <section class="sect" id="contact">
+      <div class="container">
+        <div class="sect-header reveal">
+          <span class="sect-label">Contact</span>
+          <h2>Open to Opportunities</h2>
+          <p>If you are hiring for a frontend or React.js internship, I would be glad to connect and discuss how I can contribute to your team.</p>
+        </div>
+
+        <div class="contact-layout">
+          <div class="c-panel reveal">
+            <h3>Contact Information</h3>
+            <p>Feel free to reach out through any of the channels below. I am responsive and open to discussions about internship and development opportunities.</p>
+
+            <div class="c-rows">
+              <div class="c-row">
+                <span class="cr-label">Phone</span>
+                <span class="cr-value">0323-2202337</span>
+              </div>
+              <div class="c-row">
+                <span class="cr-label">Email</span>
+                <span class="cr-value">hnasir0317@gmail.com</span>
+              </div>
+              <div class="c-row">
+                <span class="cr-label">Location</span>
+                <span class="cr-value">Nazimabad, Karachi, Pakistan</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="c-panel reveal">
+            <h3>Quick Actions</h3>
+            <p>You can contact me directly through email, visit my GitHub profile, or download my CV from the link below.</p>
+
+            <div class="c-btns">
+              <a href="mailto:hnasir0317@gmail.com" class="btn btn-fill">Send Email</a>
+              <a href="https://github.com/hamzanasir-dev" target="_blank" class="btn btn-ghost">GitHub Profile</a>
+              <a href="Hamza_Nasir_CV.pdf" target="_blank" class="btn btn-ghost">Download CV</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>2025 <strong>Hamza Nasir</strong>. All rights reserved.</div>
+      <div>Frontend Developer — Karachi, Pakistan</div>
+    </div>
+  </footer>
+
+  <!-- BACK TO TOP -->
+  <button class="back-top" id="backTop" aria-label="Back to top">&#8593;</button>
+
+  <script>
+    // HEADER SCROLL
+    const header = document.getElementById('siteHeader');
+    const backTop = document.getElementById('backTop');
+
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 30);
+      backTop.classList.toggle('show', window.scrollY > 400);
+    });
+
+    backTop.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    // HAMBURGER
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('show');
+    });
+
+    document.querySelectorAll('.mob-link').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('show');
+      });
+    });
+
+    // ACTIVE NAV
+    const sections = document.querySelectorAll('.sect, .hero');
+    const navAnchors = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (window.scrollY >= top) {
+          current = sec.getAttribute('id');
+        }
+      });
+
+      navAnchors.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) {
+          a.classList.add('active');
+        }
+      });
+    });
+
+    // REVEAL ON SCROLL
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // TYPING EFFECT
+    const roles = [
+      'Frontend Developer',
+      'React.js Developer',
+      'UI Developer',
+      'Problem Solver'
+    ];
+
+    let roleIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typingEl = document.getElementById('typingText');
+
+    function typeEffect() {
+      const current = roles[roleIndex];
+
+      if (isDeleting) {
+        typingEl.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+      } else {
+        typingEl.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+      }
+
+      let speed = isDeleting ? 40 : 80;
+
+      if (!isDeleting && charIndex === current.length) {
+        speed = 2000;
+        isDeleting = true;
+      } else if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        roleIndex = (roleIndex + 1) % roles.length;
+        speed = 400;
+      }
+
+      setTimeout(typeEffect, speed);
+    }
+
+    typeEffect();
+  </script>
+
+</body>
+</html>
